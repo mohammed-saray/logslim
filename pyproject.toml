@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "logslim"
+version = "0.1.0"
+description = "Shrink logs, stack traces and command output before pasting them into Claude, ChatGPT or Gemini. Same signal, a fraction of the tokens."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Mohammed Al-Saray"}]
+keywords = ["logs", "stack-trace", "tokens", "compression", "claude", "chatgpt", "gemini", "llm", "cli", "context-window"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Environment :: Console",
+]
+
+[project.urls]
+Homepage = "https://github.com/mohammed2345353/logslim"
+Issues = "https://github.com/mohammed2345353/logslim/issues"
+
+[project.scripts]
+logslim = "logslim.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
