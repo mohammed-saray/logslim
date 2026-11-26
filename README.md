@@ -2,7 +2,7 @@
 
 **Stop pasting 2,000-line logs into Claude, ChatGPT or Gemini. logslim keeps the error and the context around it, folds the noise, and typically cuts the tokens by 80–95%.**
 
-[![CI](https://github.com/mohammed2345353/logslim/actions/workflows/ci.yml/badge.svg)](https://github.com/mohammed2345353/logslim/actions/workflows/ci.yml)
+[![CI](https://github.com/mohammed-saray/logslim/actions/workflows/ci.yml/badge.svg)](https://github.com/mohammed-saray/logslim/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
@@ -41,7 +41,7 @@ bloated command output too.
 ## Install
 
 ```bash
-pipx install git+https://github.com/mohammed2345353/logslim
+pipx install git+https://github.com/mohammed-saray/logslim
 ```
 
 ## Usage
@@ -106,16 +106,16 @@ Small, dependency-free tools for people fighting AI usage limits:
 
 | Tool | What it does |
 |---|---|
-| [burnrate](https://github.com/mohammed2345353/burnrate) | Forecast Claude Code / Codex limits from local logs |
-| [context-diet](https://github.com/mohammed2345353/context-diet) | Find the CLAUDE.md / AGENTS.md / GEMINI.md bloat you pay for on every message |
-| [ai-handoff](https://github.com/mohammed2345353/ai-handoff) | Hit a limit? Move the task to another AI with a handoff file |
-| [ai-error-decoder](https://github.com/mohammed2345353/ai-error-decoder) | Explain 429 / 529 / quota errors from Anthropic, OpenAI and Gemini |
-| [ratelimit-retry](https://github.com/mohammed2345353/ratelimit-retry) | Retry that respects provider rate-limit headers (JS) |
-| [chat-export-md](https://github.com/mohammed2345353/chat-export-md) | ChatGPT / Claude / Gemini exports → Markdown |
-| [mcp-token-audit](https://github.com/mohammed2345353/mcp-token-audit) | Measure how many tokens each MCP server's tools cost |
+| [burnrate](https://github.com/mohammed-saray/burnrate) | Forecast Claude Code / Codex limits from local logs |
+| [context-diet](https://github.com/mohammed-saray/context-diet) | Find the CLAUDE.md / AGENTS.md / GEMINI.md bloat you pay for on every message |
+| [ai-handoff](https://github.com/mohammed-saray/ai-handoff) | Hit a limit? Move the task to another AI with a handoff file |
+| [ai-error-decoder](https://github.com/mohammed-saray/ai-error-decoder) | Explain 429 / 529 / quota errors from Anthropic, OpenAI and Gemini |
+| [ratelimit-retry](https://github.com/mohammed-saray/ratelimit-retry) | Retry that respects provider rate-limit headers (JS) |
+| [chat-export-md](https://github.com/mohammed-saray/chat-export-md) | ChatGPT / Claude / Gemini exports → Markdown |
+| [mcp-token-audit](https://github.com/mohammed-saray/mcp-token-audit) | Measure how many tokens each MCP server's tools cost |
 | **logslim** | Shrink logs and stack traces before pasting them into a chat |
-| [chunkwise](https://github.com/mohammed2345353/chunkwise) | Split big files into token-budgeted chunks with continuation prompts |
-| [ai-reset-clock](https://github.com/mohammed2345353/ai-reset-clock) | When does my quota reset? A countdown in your timezone |
+| [chunkwise](https://github.com/mohammed-saray/chunkwise) | Split big files into token-budgeted chunks with continuation prompts |
+| [ai-reset-clock](https://github.com/mohammed-saray/ai-reset-clock) | When does my quota reset? A countdown in your timezone |
 
 ## Contributing
 

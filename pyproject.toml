@@ -19,8 +19,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mohammed2345353/logslim"
-Issues = "https://github.com/mohammed2345353/logslim/issues"
+Homepage = "https://github.com/mohammed-saray/logslim"
+Issues = "https://github.com/mohammed-saray/logslim/issues"
 
 [project.scripts]
 logslim = "logslim.cli:main"
