@@ -1,4 +1,7 @@
 import unittest
+from contextlib import redirect_stderr, redirect_stdout
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from logslim.core import Options, collapse_repeats, collapse_stacks, fit_budget, slim
 from logslim.tokens import estimate
@@ -81,6 +84,22 @@ class SlimTests(unittest.TestCase):
         self.assertIn("lines omitted", joined)
         self.assertLessEqual(estimate(joined), 600)
 
+    def test_budget_truncates_oversized_last_error(self):
+        lines = ["ERROR: old failure", "FATAL: " + "x" * 10_000]
+        out = fit_budget(lines, 20, 2, estimate)
+        joined = "\n".join(out)
+        self.assertIn("[lines omitted]", out)
+        self.assertTrue(out[-1].startswith("FATAL:"))
+        self.assertLess(len(joined), len(lines[-1]))
+        self.assertLessEqual(estimate(joined), 20)
+
+    def test_marker_at_budget_boundary(self):
+        lines = ["old", "ERROR " + "x" * 100]
+        for budget in range(20):
+            out = fit_budget(lines, budget, 0, len)
+            self.assertLessEqual(len("\n".join(out)), budget)
+            self.assertEqual("[lines omitted]" in out, budget >= len("[lines omitted]"))
+
     def test_options_off(self):
         text = "2026-11-14 10:00:00 hello\n2026-11-14 10:00:00 hello"
         out = slim(text, Options(strip_timestamps=False, normalize=False, dedupe=False))
@@ -100,6 +119,38 @@ class SlimTests(unittest.TestCase):
             sys.stdin, sys.stdout = old_in, old_out
         self.assertIn("line   [×20]", out)
         self.assertTrue(out.startswith("Here is the relevant log output"))
+
+    def test_cli_tty_without_files_prints_help(self):
+        import io
+        import sys
+        from logslim import cli
+
+        class Tty(io.BytesIO):
+            def isatty(self):
+                return True
+
+        stdout = io.StringIO()
+        old_in = sys.stdin
+        sys.stdin = io.TextIOWrapper(Tty())
+        try:
+            with redirect_stdout(stdout):
+                self.assertEqual(cli.main([]), 2)
+        finally:
+            sys.stdin = old_in
+        self.assertIn("usage: logslim", stdout.getvalue())
+
+    def test_cli_missing_file_reports_error(self):
+        import io
+        from logslim import cli
+
+        with TemporaryDirectory() as directory:
+            missing = Path(directory) / "missing.log"
+            stderr = io.StringIO()
+            with redirect_stderr(stderr):
+                self.assertEqual(cli.main([str(missing)]), 1)
+        self.assertEqual(len(stderr.getvalue().splitlines()), 1)
+        self.assertIn("missing.log", stderr.getvalue())
+        self.assertNotIn("Traceback", stderr.getvalue())
 
 
 if __name__ == "__main__":

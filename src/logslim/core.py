@@ -188,6 +188,24 @@ def fit_budget(lines: List[str], max_tokens: int, context: int, estimate) -> Lis
                 break
             keep = trial
         result = render(keep)
+    if estimate("\n".join(result)) > max_tokens:
+        # A huge tail or error line can exceed the budget by itself; keep the latest errors that fit.
+        marker = ["[lines omitted]"] if n > 1 and estimate("[lines omitted]") <= max_tokens else []
+        result = []
+        candidates = [line for line in lines if IMPORTANT.search(line)] or lines[-1:]
+        for line in reversed(candidates):
+            trial = [line] + result
+            if estimate("\n".join(marker + trial)) <= max_tokens:
+                result = trial
+            elif not result:
+                while line:
+                    cost = estimate("\n".join(marker + [line]))
+                    if cost <= max_tokens:
+                        result = [line]
+                        break
+                    size = min(len(line) - 1, max_tokens * len(line) // cost)
+                    line = line[:max(0, size)]
+        result = marker + result
     return result
 
 
