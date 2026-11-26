@@ -34,10 +34,18 @@ def main(argv=None) -> int:
             except Exception:
                 pass
 
-    if a.files:
-        text = "\n".join(Path(f).read_text(encoding="utf-8", errors="replace") for f in a.files)
-    else:
-        text = sys.stdin.buffer.read().decode("utf-8", errors="replace")
+    if not a.files and sys.stdin.isatty():
+        ap.print_help()
+        return 2
+    try:
+        if a.files:
+            text = "\n".join(Path(f).read_text(encoding="utf-8", errors="replace") for f in a.files)
+        else:
+            text = sys.stdin.buffer.read().decode("utf-8", errors="replace")
+    except OSError as exc:
+        message = str(exc).replace("\r", " ").replace("\n", " ")
+        print(f"logslim: {message}", file=sys.stderr)
+        return 1
     o = Options(strip_ansi=not a.keep_ansi, strip_timestamps=not a.keep_timestamps, normalize=not a.no_normalize,
                 similar=not a.no_similar, stacks=not a.no_stacks, keep_frames=a.frames,
                 max_tokens=a.max_tokens, context=a.context)
